@@ -67,7 +67,6 @@ const kittyPrompts = {
       cat.age += 2;
       return cat;
     });
-    console.log(result);
     return result;
   }
 };
