@@ -27,7 +27,12 @@ const kittyPrompts = {
 
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.reduce(function(acc, kitty) {
+      if (kitty.color === 'orange') {
+        acc.push(kitty.name);
+      }
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -37,7 +42,7 @@ const kittyPrompts = {
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort((kittyA, kittyB) => kittyB.age - kittyA.age);
     return result;
 
     // Annotation:
@@ -58,7 +63,11 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.map(function(cat) {
+      cat.age += 2;
+      return cat;
+    });
+    console.log(result);
     return result;
   }
 };
@@ -90,11 +99,25 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+
+
+    const result = clubs.reduce((acc, obj) => {
+      obj.members.forEach(member => {
+        if (acc[member] === undefined)
+          acc[member] = [];
+        acc[member].push(obj.club);
+      });
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
     // Write your annotation here as a comment
+    // reduce clubs into an object
+    //  for each member of a club,
+    //    if the acc doens't have a key with that member
+    //      create a new empty array for that key
+    //    push the current club into the member's array
   }
 };
 
