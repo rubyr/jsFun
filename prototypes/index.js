@@ -148,7 +148,13 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = mods.map(obj => {
+      var newObj = {
+        mod: obj.mod,
+        studentsPerInstructor: obj.students / obj.instructors,
+      };
+      return newObj;
+    });
     return result;
 
     // Annotation:
