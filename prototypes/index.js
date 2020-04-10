@@ -304,7 +304,7 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.filter(room => room.program === 'FE');
     return result;
 
     // Annotation:
@@ -319,7 +319,12 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.reduce((acc, room) => {
+      if (typeof acc[`${room.program.toLowerCase()}Capacity`]=== 'undefined')
+        acc[`${room.program.toLowerCase()}Capacity`] = 0;
+      acc[`${room.program.toLowerCase()}Capacity`] += room.capacity;
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
@@ -329,7 +334,7 @@ const classPrompts = {
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort((a, b) => a.capacity - b.capacity);
     return result;
 
     // Annotation:
@@ -356,7 +361,7 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.filter((book) => !book.genre.includes('Crime') && !book.genre.includes('Horror')).map(book => book.title);
     return result;
 
     // Annotation:
@@ -371,7 +376,7 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.filter(book => book.published > 1989).map(book => ({title: book.title, year: book.published}));
     return result;
 
     // Annotation:
@@ -394,7 +399,9 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.map(loc => {
+      return (loc.temperature.high + loc.temperature.low) / 2;
+    });
     return result;
 
     // Annotation:
@@ -408,7 +415,11 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.reduce((acc, loc) => {
+      if (loc.type === 'sunny' || loc.type === 'mostly sunny')
+        acc.push(`${loc.location} is ${loc.type}.`);
+      return acc;
+    }, []);
     return result;
 
     // Annotation:
@@ -424,7 +435,11 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.reduce((acc, loc) => {
+      if (loc.humidity > acc.humidity) 
+        acc = loc;
+      return acc;
+    }, weather[0]);
     return result;
 
     // Annotation:
@@ -451,7 +466,16 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((acc, park) => {
+      if (park.visited)
+        acc.parksVisited.push(park.name);
+      else
+        acc.parksToVisit.push(park.name);
+      return acc;
+    }, {
+      parksToVisit: [],
+      parksVisited: []
+    });
     return result;
 
     // Annotation:
@@ -468,7 +492,11 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.map(park => {
+      let out = {};
+      out[park.location] = park.name;
+      return out;
+    });
     return result;
 
     // Annotation:
@@ -490,8 +518,9 @@ const nationalParksPrompts = {
     //   'canyoneering',
     //   'backpacking',
     //   'rock climbing' ]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    let activities = new Set();
+    nationalParks.forEach(park => park.activities.forEach(activity => activities.add(activity)));
+    const result = [...activities.values()];
     return result;
 
     // Annotation:
