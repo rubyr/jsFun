@@ -189,7 +189,7 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.map(cake => { return {flavor: cake.cakeFlavor, inStock: cake.inStock}});
     return result;
 
     // Annotation:
@@ -217,7 +217,7 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(cake => cake.inStock > 0);
     return result;
 
     // Annotation:
@@ -228,7 +228,7 @@ const cakePrompts = {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => acc + cake.inStock, 0);
     return result;
 
     // Annotation:
@@ -239,8 +239,11 @@ const cakePrompts = {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    var set = new Set(cakes.reduce((acc, cake) => {
+      acc.push(...cake.toppings); 
+      return acc;
+    }, []));
+    const result = Array.from(set);
     return result;
 
     // Annotation:
@@ -258,7 +261,15 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((acc, cake) => {
+      cake.toppings.forEach(t => {
+        if (acc[t] === undefined) {
+          acc[t] = 0;
+        }
+        acc[t]++;
+      });
+      return acc;
+    }, {});
     return result;
 
     // Annotation:
